@@ -1,127 +1,32 @@
 <?php
+$NeoBank = new PDO("mysql:host=localhost;dbname=neobank", "root", "");
+$NeoBank->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
- class Account {
-    protected int $AccountID;
-    protected string $AccountNumber;
-    protected string $OwnerName;
-    protected float $Balance;
-    protected PDO $db;
-
-    public function __construct(string $AccountNumber, string $ownerName, float $balance) {
-        $this->AccountNumber = $AccountNumber;
-        $this->OwnerName = $OwnerName;
-        $this->Balance = $Balance;
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+    $accountNumber = $_POST['accountNumber'];
+    $ownerName = $_POST['ownerName'];
+    $accountType = $_POST['accountType'];
+    
+    try {
+        switch($accountType) {
+            case 'savings':
+                $account = new SavingsAccount($NeoBank, $accountNumber, $ownerName, 0.0, $_POST['interestRate']);
+                break;
+            case 'current':
+                $account = new CurrentAccount($NeoBank, $accountNumber, $ownerName, 0.0, $_POST['overdraftLimit']);
+                break;
+            case 'business':
+                $account = new BusinessAccount($NeoBank, $accountNumber, $ownerName, 0.0, $_POST['task-transaction']);
+                break;
+        }
         
-    }
-
-
-    public function  InserData(){
-                     
-
-
+        $account->createAccount();
+        header("Location: index.php");
         
+    } catch(Exception $e) {
+        echo $e->getMessage();
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ?>
+
+

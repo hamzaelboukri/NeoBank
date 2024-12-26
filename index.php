@@ -12,7 +12,7 @@
         <p>des Comptes Bancaires</p>
     </header>
 
-    <form action="">
+    <form action="class.php" method="post">
 
     <div class="form"> 
     <label for="accountNumber">Numéro de compte</label>
@@ -37,22 +37,22 @@
 
                 <div id="saving" class="account-type">
                     <div class="form-group">
-                        <label for="interestRate">(%)</label>
-                        <input type="number" id="interestRate" name="interestRate" step="0.01">
+                        <label for="interestRate"> interestRate(%)</label>
+                        <input type="number" id="interestRate" name="interestRate" step="0.1">
                     </div>
                 </div>
 
                 <div id="current" class="account-type">
                     <div class="form-group">
-                        <label for="overdraftLimit"></label>
-                        <input type="number" id="overdraftLimit" name="overdraftLimit" step="0.01">
+                        <label for="overdraftLimit"> OverdraftLimit</label>
+                        <input type="number" id="overdraftLimit" name="overdraftLimit" step="0.1">
                     </div>
                 </div>
 
                 <div id="business" class="account-type">
                     <div class="form-group">
-                        <label for="task transaction"></label>
-                        <input type="number" id="task-transaction" name="task-transaction" step="0.01">
+                        <label for="task transaction">Task transaction</label>
+                        <input type="number" id="task-transaction" name="task-transaction" step="0.10">
                     </div>
                 </div>
 
