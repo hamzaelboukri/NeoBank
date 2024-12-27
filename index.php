@@ -52,7 +52,7 @@
                 <div id="business" class="account-type">
                     <div class="form-group">
                         <label for="task transaction">Task transaction</label>
-                        <input type="number" id="task-transaction" name="tasktransaction" step="0.10">
+                        <input type="number" id="task-transaction" name="taskTransaction" step="0.10">
                     </div>
                 </div>
 

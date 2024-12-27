@@ -1,27 +1,8 @@
 <?php
-try {
-    $NEobank = new PDO('mysql:host=localhost;dbname=neobank', 'root', '');
-    echo "Connected to the database successfully!";
-} catch (PDOException $e) {
-    echo "Failed to connect to the database: " . $e->getMessage();
-}
 
+rq 'pross.php';
 
-if (isset($_POST['accountNumber']) && isset($_POST['ownerName']) && isset($_POST['accountType'])) {
-    $accountNumber = $_POST['accountNumber'];
-    $ownerName = $_POST['ownerName'];
-    $accountType = $_POST['accountType'];
-    $interestRate = $_POST['interestRate'];
-    $overdraftLimit = $_POST['overdraftLimit'];
-    $taskTransaction = $_POST['taskTransaction'];
-
-}
-?>
-
-
-<?php
-
-class acount {
+class Account {
     public $accountNumber;
     public $ownerName;
     public $accountType;
@@ -29,7 +10,7 @@ class acount {
     public $overdraftLimit;
     public $taskTransaction;
 
-    public function __construct($accountNumber, $ownerName, $accountType, $interestRate, $overdraftLimit, $taskTransaction) {
+    public function __construct($accountNumber, $ownerName, $accountType, $interestRate = null, $overdraftLimit = null, $taskTransaction = null) {
         $this->accountNumber = $accountNumber;
         $this->ownerName = $ownerName;
         $this->accountType = $accountType;
@@ -39,44 +20,77 @@ class acount {
     }
 
     public function save() {
+
         global $NEobank;
-        $query = $NEobank->prepare("INSERT INTO account (accountNumber,
-         ownerName,
-          accountType,
-           Rate,
-            overdraftLimit, 
-            taskTransaction) VALUES (:accountNumber, 
-            :ownerName,
-             :accountType, 
-             :Rate, 
-             :overdraftLimit,
-              :task)");
-        $query->bindParam(':accountNumber', $this->accountNumber);
-        $query->bindParam(':ownerName', $this->ownerName);
-        $query->bindParam(':accountType', $this->accountType);
-        $query->bindParam(':interestRate', $this->interestRate);
-        $query->bindParam(':overdraftLimit', $this->overdraftLimit);
-        $query->bindParam(':task', $this->taskTransaction);
-        $query->execute();
+
+        try {
+            $NEobank->beginTransaction();
+
+            $query = $NEobank->prepare("INSERT INTO accounts (account_number, owner_name, account_type) 
+                                        VALUES (:accountNumber, :ownerName, :accountType)");
+            
+            $query->bindParam(':accountNumber', $this->accountNumber);
+            $query->bindParam(':ownerName', $this->ownerName);
+            $query->bindParam(':accountType', $this->accountType);
+            $query->execute();
+            
+            $accountId = $NEobank->lastInsertId();
+            
+            switch ($this->accountType) {
+
+                case 'savings':
+                    $query = $NEobank->prepare("INSERT INTO savings_accounts (account_id, rate) 
+                                                VALUES (:accountId, :rate)");
+                    $query->bindParam(':accountId', $accountId);
+                    $query->bindParam(':rate', $this->interestRate);
+                    break;
+                    
+                case 'current':
+                    $query = $NEobank->prepare("INSERT INTO current_accounts (account_id, overdraft_limit) 
+                                                VALUES (:accountId, :overdraftLimit)");
+                    $query->bindParam(':accountId', $accountId);
+                    $query->bindParam(':overdraftLimit', $this->overdraftLimit);
+                    break;
+                    
+                case 'business':
+                    $query = $NEobank->prepare("INSERT INTO business_accounts (account_id, task) 
+                                                VALUES (:accountId, :task)");
+                    $query->bindParam(':accountId', $accountId);
+                    $query->bindParam(':task', $this->taskTransaction);
+                    break;
+            }
+            
+            $query->execute();
+            $NEobank->commit();
+            
+            return true;
+
+        } catch (Exception $e) {
+            $NEobank->rollBack();
+            error_log("Error saving account: " . $e->getMessage());
+            return false;
+        }
     }
 
-    public function getAccount() {
+    public function getAccounts() {
         global $NEobank;
-        $query = $NEobank->prepare("SELECT * FROM account");
-        $query->execute();
-        return $query->fetchAll();
+        try {
+            $query = $NEobank->prepare("
+                SELECT a.*, 
+                    s.rate AS interest_rate, 
+                    c.overdraft_limit, 
+                    b.task AS task_transaction
+                FROM accounts a
+                LEFT JOIN savings_accounts s ON a.account_id = s.account_id
+                LEFT JOIN current_accounts c ON a.account_id = c.account_id
+                LEFT JOIN business_accounts b ON a.account_id = b.account_id
+            ");
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error getting accounts: " . $e->getMessage());
+            return false;
+        }
     }
-
 }
-
-
-
-
-
-
-
 ?>
-
-
-
-
