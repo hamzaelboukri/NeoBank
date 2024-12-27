@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../cssfils/style.css">
     <title>NeoBank</title>
 </head>
 <body>
@@ -12,6 +12,34 @@
         <p>des Comptes Bancaires</p>
     </header>
 
+ <div class="sidebar">
+      <h2>Dashboard</h2>
+      <ul>
+      <li>
+    <a href="index.php">
+        <img src="./img/home.png" alt="club" width="30px" height="30px"> Home
+    </a>
+</li>
+<li>
+    <a href="admin_page.php">
+        <img src="./img/icone.png" alt="club" width="30px" height="30px"> Statistics
+    </a>
+</li>
+<li>
+    <a href="clup.php">
+        <img src="./img/clup.png" alt="club" width="30px" height="30px"> Add Club
+    </a>
+</li>
+<li>
+    <a href="ntc.php">
+        <img src="./img/clup.png" alt="club" width="30px" height="30px"> Nationalities
+    </a>
+</li>
+
+
+        <li><a>Settings</a></li>
+      </ul>
+    </div>
     <form action="class.php" method="post">
 
     <div class="form"> 

@@ -1,6 +1,6 @@
 <?php
 
-rq 'pross.php';
+require 'conn.php';
 
 class Account {
     public $accountNumber;
