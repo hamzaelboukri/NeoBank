@@ -17,24 +17,15 @@
       <ul>
       <li>
     <a href="index.php">
-        <img src="./img/home.png" alt="club" width="30px" height="30px"> Home
+       Home
     </a>
 </li>
 <li>
-    <a href="admin_page.php">
-        <img src="./img/icone.png" alt="club" width="30px" height="30px"> Statistics
+    <a href="aficher.php">
+     le Account
     </a>
 </li>
-<li>
-    <a href="clup.php">
-        <img src="./img/clup.png" alt="club" width="30px" height="30px"> Add Club
-    </a>
-</li>
-<li>
-    <a href="ntc.php">
-        <img src="./img/clup.png" alt="club" width="30px" height="30px"> Nationalities
-    </a>
-</li>
+
 
 
         <li><a>Settings</a></li>

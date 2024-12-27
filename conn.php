@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
         
         if ($account->save()) {
-            header('Location: index.php?success=1');
+            header('Location: aficher.php?success=1');
             exit;
         }
         //  else {

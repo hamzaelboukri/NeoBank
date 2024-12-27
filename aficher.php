@@ -4,6 +4,9 @@ require 'class.php';
 
 $account = new Account(null, null, null);
 $accounts = $account->getAccounts();
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -11,6 +14,7 @@ $accounts = $account->getAccounts();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../cssfils/style.css">
     <title>Liste des Comptes - NeoBank</title>
     <style>
        
@@ -28,24 +32,15 @@ $accounts = $account->getAccounts();
       <ul>
       <li>
     <a href="index.php">
-        <img src="./img/home.png" alt="club" width="30px" height="30px"> Home
+         Home
     </a>
 </li>
 <li>
     <a href="admin_page.php">
-        <img src="./img/icone.png" alt="club" width="30px" height="30px"> Statistics
+       le Account
     </a>
 </li>
-<li>
-    <a href="clup.php">
-        <img src="./img/clup.png" alt="club" width="30px" height="30px"> Add Club
-    </a>
-</li>
-<li>
-    <a href="ntc.php">
-        <img src="./img/clup.png" alt="club" width="30px" height="30px"> Nationalities
-    </a>
-</li>
+
 
 
         <li><a>Settings</a></li>
