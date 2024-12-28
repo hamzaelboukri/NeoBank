@@ -6,7 +6,6 @@ $account = new Account(null, null, null);
 $accounts = $account->getAccounts();
 
 
-
 ?>
 
 <!DOCTYPE html>
